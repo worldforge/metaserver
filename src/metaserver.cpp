@@ -526,7 +526,9 @@ void Metaserver::HandleServerKeepalive(SA *pcliaddr, socklen_t socketlen)
   unsigned int     handshake = random();
   int              active;
   Handshake        hs;
+#ifdef DEBUG
   char            *presentation;
+#endif
   SAIN            *sa = (SAIN *)pcliaddr;
 
   hs.SetValues(sa->sin_addr.s_addr, handshake, time(NULL));
@@ -552,7 +554,9 @@ void Metaserver::HandleClientKeepalive(SA *pcliaddr, socklen_t socketlen)
   unsigned int     handshake = random();
   int              active;
   Handshake        hs;
+#ifdef DEBUG
   char            *presentation;
+#endif
   SAIN            *sa = (SAIN *)pcliaddr;
 
   hs.SetValues(sa->sin_addr.s_addr, handshake, time(NULL));
