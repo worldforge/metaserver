@@ -11,11 +11,12 @@ AC_PROG_CXX
 
 dnl Checks for libraries.
 dnl Replace `main' with a function in -lgnugetopt:
+AC_CHECK_HEADERS(getopt.h)
 AC_CHECK_LIB(gnugetopt, getopt_long)
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(syslog.h unistd.h features.h getopts.h)
+AC_CHECK_HEADERS(syslog.h unistd.h features.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
