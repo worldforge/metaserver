@@ -1,5 +1,5 @@
 CFLAGS=-Wall -I/usr/local/include
-CXXFLAGS=-Wall -I/usr/local/include -g -DDEBUG
+CXXFLAGS=-Wall -I/usr/local/include
 
 bin_PROGRAMS = metaserver #metaserver.debug
 

@@ -88,6 +88,7 @@ void WrapUnix::err_doit(int errnoflag, int level, const char *fmt, va_list ap)
 //=============================================================================
 /* Fatal error related to a system call.
  * Print a message and terminate. */
+/* There are no fatal errors.  Deal. */
 void WrapUnix::err_sys(const char *fmt, ...)
 {
   va_list ap;
@@ -95,12 +96,13 @@ void WrapUnix::err_sys(const char *fmt, ...)
   va_start(ap, fmt);
   err_doit(1, LOG_ERR, fmt, ap);
   va_end(ap);
-  exit(1);
+/*  exit(1); */
 }
 
 //=============================================================================
 /* Fatal error unrelated to a system call.
  * Print a message and terminate. */
+/* There are no fatal errors.  Deal. */
 void WrapUnix::err_quit(const char *fmt, ...)
 {
   va_list ap;
@@ -108,7 +110,7 @@ void WrapUnix::err_quit(const char *fmt, ...)
   va_start(ap, fmt);
   err_doit(0, LOG_ERR, fmt, ap);
   va_end(ap);
-  exit(1);
+/*  exit(1); */
 }
 
 //=============================================================================
