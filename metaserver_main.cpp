@@ -1,7 +1,7 @@
 /*
     Generic Game Metaserver
 
-    Copyright (C) 2000 Dragon Master
+    Copyright (C) 2000-2001 Dragon Master
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2 as
@@ -21,33 +21,41 @@
 
     The author can be reached via e-mail to dragonm@leech.org
 */
-#ifndef PROTOCOL_INSTRUCTIONS_H
-#define PROTOCOL_INSTRUCTIONS_H
+/*
 
-#define SKEEP_ALIVE (long)1
-#define CKEEP_ALIVE (long)2
-#define HANDSHAKE (long)3
-#define SERVERSHAKE (long)4
-#define CLIENTSHAKE (long)5
-#define TERMINATE (long)6
-#define LIST_REQ (long)7
-#define LIST_RESP (long)8
-#define PROTO_ERANGE (long)9
+    This software was implemented based on the following article:
 
-enum NetMsgType
-{
-  NMT_NULL = 0,
-  NMT_SERVERKEEPALIVE = 1,
-  NMT_CLIENTKEEPALIVE,
-  NMT_HANDSHAKE,
-  NMT_SERVERSHAKE,
-  NMT_CLIENTSHAKE,
-  NMT_TERMINATE,
-  NMT_LISTREQ,
-  NMT_LISTRESP,
-  NMT_PROTO_ERANGE,
-  NMT_LAST
-};
+    Half-Life and TeamFortress Networking: Closing the Loop on Scalable 
+      Network Gaming Backend Services
+    By Yahn Bernier 
+    Gamasutra
+    May 11, 2000
+    URL: http://www.gamasutra.com/features/20000511/bernier_01.htm
 
-
+    Thanks to Yahn Bernier and Gamasutra.  The article saved having to 
+    go back and correct what would have been at least one major blunder.
+*/
+#ifdef __FreeBSD__
+//#include <db.h>
 #endif
+//#include <netinet/in.h>
+
+//#include "mainloop.hh"
+
+#include "metaserver.hh"
+
+
+int main(int argc, char **argv)
+{
+  Metaserver metaserver;
+
+  if(!metaserver.ParseCommandline(argc, argv))
+    return 1;
+
+  if(!metaserver.Initialize(argv[0]))
+    return 2;
+
+  metaserver.Process();
+
+  return 0;
+}

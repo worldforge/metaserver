@@ -1,5 +1,5 @@
 
-CFLAGS=-Wall -I/usr/local/include -I../
+CFLAGS=-Wall -I/usr/local/include -I../ -g -DDEBUG
 CXXFLAGS=-Wall -I/usr/local/include -I../
 #LIBS = -L/usr/local/lib -lgnugetopt
 

@@ -1,7 +1,7 @@
 /*
     Generic Game Metaserver
 
-    Copyright (C) 2000 Dragon Master
+    Copyright (C) 2000-2001 Dragon Master
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2 as
@@ -21,33 +21,34 @@
 
     The author can be reached via e-mail to dragonm@leech.org
 */
-#ifndef PROTOCOL_INSTRUCTIONS_H
-#define PROTOCOL_INSTRUCTIONS_H
+/*
+    This software was implemented based on the following articles:
 
-#define SKEEP_ALIVE (long)1
-#define CKEEP_ALIVE (long)2
-#define HANDSHAKE (long)3
-#define SERVERSHAKE (long)4
-#define CLIENTSHAKE (long)5
-#define TERMINATE (long)6
-#define LIST_REQ (long)7
-#define LIST_RESP (long)8
-#define PROTO_ERANGE (long)9
+    Applying Design Patterns to Simplify Signal Handling
+    By Douglas C. Schmidt
+    C++ Report
+    April 1998
+    URL: http://www.cs.wustl.edu/~schmidt/signal-patterns.html
 
-enum NetMsgType
+    Design Patterns
+    Singleton | C++ demos
+    By Vince Huston
+    Published on the Web
+    URL: http://rampages.onramp.net/~huston/dp/patterns.html
+
+    The second was of course based on:
+
+    Design Patterns: Elements of Reusable Object-Oriented Software
+    By Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides
+*/
+#ifndef SIGNALHANDLER_HH
+#define SIGNALHANDLER_HH
+
+
+class SignalHandler
 {
-  NMT_NULL = 0,
-  NMT_SERVERKEEPALIVE = 1,
-  NMT_CLIENTKEEPALIVE,
-  NMT_HANDSHAKE,
-  NMT_SERVERSHAKE,
-  NMT_CLIENTSHAKE,
-  NMT_TERMINATE,
-  NMT_LISTREQ,
-  NMT_LISTRESP,
-  NMT_PROTO_ERANGE,
-  NMT_LAST
+public:
+  virtual int HandleSignal(int signum) = 0;
 };
-
 
 #endif

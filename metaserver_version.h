@@ -1,7 +1,7 @@
 /*
     Generic Game Metaserver
 
-    Copyright (C) 2000 Dragon Master
+    Copyright (C) 2000-2001 Dragon Master
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2 as
@@ -21,33 +21,14 @@
 
     The author can be reached via e-mail to dragonm@leech.org
 */
-#ifndef PROTOCOL_INSTRUCTIONS_H
-#define PROTOCOL_INSTRUCTIONS_H
+#ifndef METASERVER_VERSION_H
+#define METASERVER_VERSION_H
 
-#define SKEEP_ALIVE (long)1
-#define CKEEP_ALIVE (long)2
-#define HANDSHAKE (long)3
-#define SERVERSHAKE (long)4
-#define CLIENTSHAKE (long)5
-#define TERMINATE (long)6
-#define LIST_REQ (long)7
-#define LIST_RESP (long)8
-#define PROTO_ERANGE (long)9
-
-enum NetMsgType
-{
-  NMT_NULL = 0,
-  NMT_SERVERKEEPALIVE = 1,
-  NMT_CLIENTKEEPALIVE,
-  NMT_HANDSHAKE,
-  NMT_SERVERSHAKE,
-  NMT_CLIENTSHAKE,
-  NMT_TERMINATE,
-  NMT_LISTREQ,
-  NMT_LISTRESP,
-  NMT_PROTO_ERANGE,
-  NMT_LAST
-};
-
+const char *long_version = "Generic Game Metaserver v" VERSION;
+const char *short_version = VERSION;
+const char *copyright_license_no_warranty =
+"Copyright (C) 2000-2001 Dragon Master\n"
+"This software is licensed under the GNU GPL and comes with ABSOLUTELY NO\n"
+"WARRANTY.  See the accompanying License file for details.";
 
 #endif

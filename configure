@@ -451,7 +451,7 @@ echo > confdefs.h
 
 # A filename unique to this package, relative to the directory that
 # configure is in, which we can look for to find out if srcdir is correct.
-ac_unique_file=metaserver.cc
+ac_unique_file=metaserver_main.cpp
 
 # Find the source files, if location was not specified.
 if test -z "$srcdir"; then
@@ -691,7 +691,7 @@ fi
 
 PACKAGE=metaserver
 
-VERSION=1.1
+VERSION=1.9
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }

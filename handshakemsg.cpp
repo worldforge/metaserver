@@ -1,7 +1,7 @@
 /*
     Generic Game Metaserver
 
-    Copyright (C) 2000 Dragon Master
+    Copyright (C) 2000-2001 Dragon Master
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2 as
@@ -21,33 +21,33 @@
 
     The author can be reached via e-mail to dragonm@leech.org
 */
-#ifndef PROTOCOL_INSTRUCTIONS_H
-#define PROTOCOL_INSTRUCTIONS_H
+#include "handshakemsg.hh"
 
-#define SKEEP_ALIVE (long)1
-#define CKEEP_ALIVE (long)2
-#define HANDSHAKE (long)3
-#define SERVERSHAKE (long)4
-#define CLIENTSHAKE (long)5
-#define TERMINATE (long)6
-#define LIST_REQ (long)7
-#define LIST_RESP (long)8
-#define PROTO_ERANGE (long)9
-
-enum NetMsgType
+//=============================================================================
+HandshakeMsg::HandshakeMsg(const unsigned char *message, 
+			   const unsigned int messageLength)
 {
-  NMT_NULL = 0,
-  NMT_SERVERKEEPALIVE = 1,
-  NMT_CLIENTKEEPALIVE,
-  NMT_HANDSHAKE,
-  NMT_SERVERSHAKE,
-  NMT_CLIENTSHAKE,
-  NMT_TERMINATE,
-  NMT_LISTREQ,
-  NMT_LISTRESP,
-  NMT_PROTO_ERANGE,
-  NMT_LAST
-};
+  if(messageLength < MAX_MSG_LENGTH)
+    memcpy(mBuffer, message, messageLength);
+
+  if(!VerifyType(NMT_HANDSHAKE))
+    return;
+
+  Unpack();
+}
 
 
-#endif
+//=============================================================================
+void HandshakeMsg::Pack()
+{
+  NetMsg::Pack();
+  PackInt(mHandshake);
+  mPacked = true;
+}
+
+
+//=============================================================================
+void HandshakeMsg::Unpack()
+{
+  mHandshake = UnpackInt();
+}
