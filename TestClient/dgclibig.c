@@ -28,6 +28,7 @@
 #include "protocol_instructions.h"
 
 void metaserver_listreq(int, const SA *, socklen_t);
+void writehtml(const char *, const int);
 char *pack_uint32(uint32_t, char *, unsigned int *);
 char *unpack_uint32(uint32_t *, char *);
 
@@ -41,18 +42,16 @@ void metaserver_listreq(int sockfd, const SA *servaddr, socklen_t servlen)
 {
   char           mesg[MAXLINE];
   char          *mesg_ptr;
-  char          *timestr;
   uint32_t       handshake=0, command=0, total=1, packed, from=0;
   SA             addr;
   socklen_t      addrlen;
   unsigned int   packet_size;
   int            count;
   char           str[128];
+  char          *html;
+  int            htmllen = 1024;
+  int            htmlwhere = 0;
   struct in_addr temp;
-  FILE          *htmlout;
-  struct timeb   currenttime;
-
-  htmlout = fopen("metaserver.txt", "w");
 
   packet_size = 0;
   mesg_ptr = pack_uint32(CKEEP_ALIVE, mesg, &packet_size);
@@ -71,6 +70,7 @@ void metaserver_listreq(int sockfd, const SA *servaddr, socklen_t servlen)
     Sendto(sockfd, mesg, packet_size, 0, servaddr, servlen);
   }
 
+  html = (char *)malloc(htmllen);
   while(1)
   {
     if(from > total || total == 0)
@@ -98,7 +98,12 @@ void metaserver_listreq(int sockfd, const SA *servaddr, socklen_t servlen)
 	mesg_ptr = unpack_uint32(&temp.s_addr, mesg_ptr);
 	inet_ntop(AF_INET, &temp, str, sizeof(str));
 	printf("Server at: %s\n", str);
-        fprintf(htmlout, "<h3>%s</h3>\n", str);
+        if(htmllen < htmlwhere + 24)
+        {
+          htmllen += 1024;
+          html = (char *)realloc(html, htmllen);
+        }
+        htmlwhere += sprintf(html + htmlwhere, "<h3>%s</h3>\n", str);
       }
       from += packed;
     }
@@ -108,11 +113,25 @@ void metaserver_listreq(int sockfd, const SA *servaddr, socklen_t servlen)
       break;
     }
   }
+  writehtml(html, htmlwhere);
+  free(html);
+}
+
+void writehtml(const char *html, const int len)
+{
+  FILE          *htmlout;
+  struct timeb   currenttime;
+  char          *timestr;
+
+  htmlout = fopen("metaserver.txt", "w");
+  fwrite(html, 1, len, htmlout);
+
   tzset();
   ftime(&currenttime);
   timestr = ctime(&(currenttime.time));
   timestr[strlen(timestr)-1] = '\0';
   fprintf(htmlout, "<p>\n%s %s</p>", timestr, daylight ? tzname[1] : tzname[0]);
+  fclose(htmlout);
 }
 
 char *pack_uint32(uint32_t data, char *buffer, unsigned int *size)
