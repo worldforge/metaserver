@@ -250,7 +250,8 @@ void Metaserver::Help()
        << "-s   --server-ip  Server IP" << endl
        << "-p   --port       Server Listen Port" << endl
        << "-d   --daemon     Move Into Background" << endl
-       << "-x   --execute    Execute Specified Command on Server List/Delist" << endl;
+       << "-x   --execute    Execute Specified Command on Server List/Delist" << endl
+       << "-q   --quiet      Don't Write to stdout" << endl;
 }
 
 
