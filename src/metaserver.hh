@@ -106,6 +106,7 @@ private:
   char *PolishedPresentation(char *presentation);
 
   bool            mDaemon;
+  char            mExecute[128];
   struct in_addr  mBindAddress;
   int             mListenPort;
   int             mListenSocket;

@@ -146,12 +146,13 @@ int Metaserver::ParseCommandline(int argc, char * argv[])
       {"server-ip", 1, 0, 's'},
       {"version", 0, 0, 'v'},
       {"daemon", 0, 0, 'd'},
+      {"execute", 1, 0, 'x'},
       {0, 0, 0, 0}
     };
 
-    c = getopt_long (argc, argv, "hp:qs:vd", long_options, &option_index);
+    c = getopt_long (argc, argv, "hp:qs:vdx:", long_options, &option_index);
 #else
-    c = getopt (argc, argv, "hp:qs:vd");
+    c = getopt (argc, argv, "hp:qs:vdx:");
 #endif
     if (c == -1)
       break;
@@ -196,6 +197,8 @@ int Metaserver::ParseCommandline(int argc, char * argv[])
       case 'd':
         mDaemon = true;
         break;
+      case 'x':
+        strncpy(mExecute, optarg, 128);
       case '?':
         break;
       default:
@@ -245,7 +248,8 @@ void Metaserver::Help()
        << "-h   --help       Help" << endl
        << "-s   --server-ip  Server IP" << endl
        << "-p   --port       Server Listen Port" << endl
-       << "-d   --daemon     Move Into Background" << endl;
+       << "-d   --daemon     Move Into Background" << endl
+       << "-x   --execute    Execute Specified Command on Server List/Delist" << endl;
 }
 
 
@@ -491,6 +495,7 @@ void Metaserver::ReapList(ListType which)
       switch(which)
       {
         case SERVER_LIST:
+          system(mExecute);
           debug_msg("Reaping stale server: %s", str);
           break;
         case CLIENT_LIST:
@@ -593,6 +598,8 @@ void Metaserver::HandleServerShake(SA *pcliaddr, const ServerShakeMsg &msg)
     {
       search_for.SetValues(sa->sin_addr.s_addr, 0, time(NULL));
       mActiveServers.push_back(search_for);
+
+      system(mExecute);
 
       if((active = mActiveServers.size()) > mPeakActiveServers)
 	mPeakActiveServers = active;
@@ -698,6 +705,7 @@ void Metaserver::HandleTerminate(SA *pcliaddr)
 	      PolishedPresentation(presentation));
 #endif
     mActiveServers.erase(i);
+    system(mExecute);
   }
   else
   {
