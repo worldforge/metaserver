@@ -1,0 +1,72 @@
+What is the Generic Game Metaserver?
+
+A game metaserver is the piece of code that provides some or all of the 
+backend services for an online game.  Services such as matching clients with 
+servers, updating clients, and allowing players to chat with one another 
+outside of a game.
+
+This implementation, as of v1.0, currently supports only one of those 
+services, specifically, client/server matching.  It is the rawest 
+implementation, supporting no command line options, requiring a recompile 
+to change the listening port, and supporting no configuration file.  It 
+compiles only under Linux, and does not use GNU autoconf or automake.
+
+REQUIREMENTS:
+
+You will need Linux and a recent C++ compiler which supports the Standard 
+Template Library.  This software was developed on a Dual Pentium II 300 
+running Linux kernel 2.2.16 SMP using GNU Make 3.77 and the GNU Compiler 
+Collection 2.95.3 C and C++ compilers.  If it compiles and runs on any other 
+configuration, it's purely coincidental.
+
+COMPILING:
+
+As of the initial release, if you have the requirements above, simply type 
+"make" in each of the three directories: metaserver and the child directories 
+TestClient and TestServer.  Both an -O2 optimized, stripped production version 
+and a debug version will be compiled.
+
+MAILING LIST:
+
+None
+
+FTP SITES:
+
+None
+
+WEB SITES:
+
+None
+
+CVS CHECKOUT:
+
+cvs.worldforge.org metaserver module
+Exact details to follow.
+
+REPORTING BUGS:
+
+E-mail the author at the address listed below.
+
+COPYRIGHT AND LICENSE:
+
+    Generic Game Metaserver
+
+    Copyright (C) 2000 Dragon Master
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License version 2 as
+    published by the Free Software Foundation.  A copy of this license is
+    included in this package.  If there is any discrepancy between this copy
+    and the version published by the Free Software Foundation, the included
+    version shall apply.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+    The author can be reached via e-mail to dragonm@leech.org

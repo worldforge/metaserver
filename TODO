@@ -1,0 +1,22 @@
+Generic Game Metaserver TODO List
+
+At the moment, this code fulfills only the most basic function of a 
+traditional metaserver.  That is, client/server matching works, and nothing 
+else.  Further enhancements will be:
+
+- Integrate the dotconf library so the server can read a configuration file
+- Take advantage of the dotconf library's ability to handle modules to 
+  modularize the entire server
+- Create configurable client version checker and patch server module
+- Create user chat module
+- Create metaserver link module to enable a network of metaservers
+- Extend server information gathered to include server type, server version, 
+  number of players connected, and server uptime.
+- Support GNU autoconf and automake
+- Port to other UN*Xs besides Linux.
+- Add commandline options, including help and version
+
+These items won't necessarily be completed in the order listed.  In fact, it's 
+unlikely.  They'll be completed as time allows and demand requires.
+
+DM
