@@ -1,9 +1,5 @@
 
-CFLAGS=-Wall -I/usr/local/include -I../src -g -DDEBUG
-CXXFLAGS=-Wall -I/usr/local/include -I../src
-#LIBS = -L/usr/local/lib -lgnugetopt
-
-bin_PROGRAMS = testclient #testclient.debug
+bin_PROGRAMS = testclient
 
 noinst_HEADERS =\
  wrap.h dgclibig.h
