@@ -479,6 +479,10 @@ void Metaserver::ReapList(ListType which)
       peak = &mPeakPendingClientHandshakes;
       list_ptr = &mClientHandshakes;
       break;
+    default:
+      // Not Reached, but default to the Active Servers list
+      peak = &mPeakActiveServers;
+      list_ptr = &mActiveServers;
   }
   if((active = (*list_ptr).size()) > *peak)
         *peak = active;
