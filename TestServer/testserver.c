@@ -21,20 +21,27 @@
 
     The author can be reached via e-mail to dragonm@leech.org
 */
+
 #include "wrap.h"
 #include "dgclibig.h"
 
+#define DEFAULT_SERV_PORT           8453
+
 int main(int argc, char **argv)
 {
+  int                metaserver_port = DEFAULT_SERV_PORT;
   int                sockfd;
   struct sockaddr_in sa;
 
-  if(argc != 2)
-    err_quit("usage: testclient <hostname>");
+  if(argc < 2 || argc > 3)
+    err_quit("usage: testclient <hostname> [<port>]");
+
+  if(argc == 3)
+    sscanf(argv[2], "%d", &metaserver_port);
 
   memset(&sa, 0, sizeof(sa));
   sa.sin_family = AF_INET;
-  sa.sin_port = htons(8453);
+  sa.sin_port = htons(metaserver_port);
   Inet_pton(AF_INET, argv[1], &sa.sin_addr);
 
   sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
