@@ -1,7 +1,4 @@
-CFLAGS=-Wall -I/usr/local/include
-CXXFLAGS=-Wall -I/usr/local/include
-
-bin_PROGRAMS = metaserver #metaserver.debug
+bin_PROGRAMS = metaserver
 
 noinst_HEADERS =\
  mainloop.hh protocol_instructions.h netmsg.hh wrapunix.hh
