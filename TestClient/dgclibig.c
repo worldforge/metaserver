@@ -39,7 +39,7 @@ void metaserver_listreq(int sockfd, const SA *servaddr, socklen_t servlen)
 {
   char           mesg[MAXLINE];
   char          *mesg_ptr;
-  uint32_t       handshake=0, command=0, total, packed;
+  uint32_t       handshake=0, command=0, total=1, packed, from=0;
   SA             addr;
   socklen_t      addrlen;
   unsigned int   packet_size;
@@ -64,26 +64,40 @@ void metaserver_listreq(int sockfd, const SA *servaddr, socklen_t servlen)
     Sendto(sockfd, mesg, packet_size, 0, servaddr, servlen);
   }
 
-  packet_size = 0;
-  mesg_ptr = pack_uint32(LIST_REQ, mesg, &packet_size);
-  mesg_ptr = pack_uint32(0, mesg_ptr, &packet_size);
-  Sendto(sockfd, mesg, packet_size, 0, servaddr, servlen);
-
-  Recvfrom(sockfd, mesg, MAXLINE, 0, &addr, &addrlen);
-  mesg_ptr = unpack_uint32(&command, mesg);
-  if(command == PROTO_ERANGE)
-    printf("Server said Range Error.\n");
-  else if(command == LIST_RESP)
+  while(1)
   {
-    printf("Received server list packet.\n");
-    mesg_ptr = unpack_uint32(&total, mesg_ptr);
-    mesg_ptr = unpack_uint32(&packed, mesg_ptr);
-    printf("Received %u servers of %u total.\n", packed, total);
-    for(count = packed; count > 0; count--)
+    if(from > total || total == 0)
+      break;
+    packet_size = 0;
+    mesg_ptr = pack_uint32(LIST_REQ, mesg, &packet_size);
+    mesg_ptr = pack_uint32(from, mesg_ptr, &packet_size);
+    Sendto(sockfd, mesg, packet_size, 0, servaddr, servlen);
+
+    Recvfrom(sockfd, mesg, MAXLINE, 0, &addr, &addrlen);
+    mesg_ptr = unpack_uint32(&command, mesg);
+    if(command == PROTO_ERANGE)
     {
-      mesg_ptr = unpack_uint32(&temp.s_addr, mesg_ptr);
-      inet_ntop(AF_INET, &temp, str, sizeof(str));
-      printf("Server at: %s\n", str);
+      printf("Server said Range Error.\n");
+      break;
+    }
+    else if(command == LIST_RESP)
+    {
+      printf("Received server list packet.\n");
+      mesg_ptr = unpack_uint32(&total, mesg_ptr);
+      mesg_ptr = unpack_uint32(&packed, mesg_ptr);
+      printf("Received %u servers of %u total.\n", packed, total);
+      for(count = packed; count > 0; count--)
+      {
+	mesg_ptr = unpack_uint32(&temp.s_addr, mesg_ptr);
+	inet_ntop(AF_INET, &temp, str, sizeof(str));
+	printf("Server at: %s\n", str);
+      }
+      from += packed;
+    }
+    else
+    {
+      printf("Received unexpected packet: %d\n", command);
+      break;
     }
   }
 }
