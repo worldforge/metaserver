@@ -41,6 +41,7 @@ void metaserver_listreq(int sockfd, const SA *servaddr, socklen_t servlen)
 {
   char           mesg[MAXLINE];
   char          *mesg_ptr;
+  char          *timestr;
   uint32_t       handshake=0, command=0, total=1, packed, from=0;
   SA             addr;
   socklen_t      addrlen;
@@ -107,8 +108,11 @@ void metaserver_listreq(int sockfd, const SA *servaddr, socklen_t servlen)
       break;
     }
   }
+  tzset();
   ftime(&currenttime);
-  fprintf(htmlout, "<p>\n%s</p>", ctime(&(currenttime.time)));
+  timestr = ctime(&(currenttime.time));
+  timestr[strlen(timestr)-1] = '\0';
+  fprintf(htmlout, "<p>\n%s %s</p>", timestr, daylight ? tzname[1] : tzname[0]);
 }
 
 char *pack_uint32(uint32_t data, char *buffer, unsigned int *size)
