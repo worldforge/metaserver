@@ -5,11 +5,11 @@ backend services for an online game.  Services such as matching clients with
 servers, updating clients, and allowing players to chat with one another 
 outside of a game.
 
-This implementation, as of v1.0, currently supports only one of those 
-services, specifically, client/server matching.  It is the rawest 
-implementation, supporting no command line options, requiring a recompile 
-to change the listening port, and supporting no configuration file.  It 
-compiles only under Linux, and does not use GNU autoconf or automake.
+This implementation, as of v1.1, currently supports only one of those 
+services, specifically, client/server matching.  It now supports command line
+options, which allows the port to listen on to be specified at runtime.  It is 
+still a fairly raw implementation, which does not support a configuration 
+file, and compiles only under Linux, and does not use GNU autoconf or automake.
 
 REQUIREMENTS:
 

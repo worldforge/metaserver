@@ -11,12 +11,15 @@ else.  Further enhancements will be:
 - Create user chat module
 - Create metaserver link module to enable a network of metaservers
 - Extend server information gathered to include server type, server version, 
-  number of players connected, and server uptime.
+  number of players connected, and server uptime
 - Support GNU autoconf and automake
-- Port to other UN*Xs besides Linux.
-- Add commandline options, including help and version
+- Port to other UN*Xs besides Linux
+- Add ability to self-daemonize
 
 These items won't necessarily be completed in the order listed.  In fact, it's 
 unlikely.  They'll be completed as time allows and demand requires.
 
 DM
+
+Completed 09/30/00
+- Add commandline options, including help and version

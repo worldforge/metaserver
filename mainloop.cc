@@ -389,9 +389,11 @@ void reap_list(list_type which)
     case SERVER_HANDSHAKE_LIST:
       peak = &peak_pending_server_handshakes;
       list_ptr = &server_handshakes;
+      break;
     case CLIENT_HANDSHAKE_LIST:
       peak = &peak_pending_client_handshakes;
       list_ptr = &client_handshakes;
+      break;
   }
   if((active = (*list_ptr).size()) > *peak)
         *peak = active;
@@ -417,8 +419,10 @@ void reap_list(list_type which)
           break;
         case SERVER_HANDSHAKE_LIST:
           cout << "Reaping stale server handshake: " << str << endl;
+          break;
         case CLIENT_HANDSHAKE_LIST:
           cout << "Reaping stale client handshake: " << str << endl;
+          break;
       }
 #endif
       lead = (*list_ptr).erase(lead);

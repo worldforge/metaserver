@@ -3,4 +3,10 @@ Generic Game Metaserver ChangeLog
 	Initial Release
 	
 	v1.0 September 17, 2000
-		Polished and waxed with lots of English text and published.
+	Polished and waxed with lots of English text and published.
+
+	v1.1 September 30, 2000
+	Added command-line parsing to metaserver.  Added complementary code
+	in test client and server to allow the user to specify port.
+	Metaserver can now return version and help information, and bind to a
+	specified port and/or specified IP address.

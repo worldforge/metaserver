@@ -51,7 +51,8 @@ typedef void    Sigfunc(int);   /* for signal handlers */
 void Bind(int, const struct sockaddr *, socklen_t);
 char *Fgets(char *, int, FILE *);
 void Fputs(const char *, FILE *);
-void Inet_pton(int, const char *, void *);
+void Inet_aton(const char *, struct in_addr *);
+int Inet_pton(int, const char *, void *);
 void *Malloc(size_t);
 ssize_t Recvfrom(int, void *, size_t, int, struct sockaddr *, socklen_t *);
 void Sendto(int, const void *, size_t, int, const struct sockaddr *, 

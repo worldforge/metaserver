@@ -111,7 +111,15 @@ void Fputs(const char *ptr, FILE *stream)
     err_sys("fputs error");
 }
 
-void Inet_pton(int family, const char *strptr, void *addrptr)
+void Inet_aton(const char *cp, struct in_addr *inp)
+{
+  int n;
+
+  if(!(n = inet_aton(cp, inp)))
+    err_quit("'%s' is not a valid decimal-and-dots IP address", cp);
+}
+
+int Inet_pton(int family, const char *strptr, void *addrptr)
 {
   int n;
 
@@ -119,6 +127,8 @@ void Inet_pton(int family, const char *strptr, void *addrptr)
     err_sys("inet_pton error for %s", strptr);	/* errno set */
   else if (n == 0)
     err_quit("inet_pton error for %s", strptr);	/* errno not set */
+
+  return n;
 }
 
 void *Malloc(size_t size)
