@@ -1,6 +1,6 @@
 
-CFLAGS=-Wall -I/usr/local/include -I../ -g -DDEBUG
-CXXFLAGS=-Wall -I/usr/local/include -I../
+CFLAGS=-Wall -I/usr/local/include -I../src -g -DDEBUG
+CXXFLAGS=-Wall -I/usr/local/include -I../src
 #LIBS = -L/usr/local/lib -lgnugetopt
 
 bin_PROGRAMS = testserver #testserver.debug

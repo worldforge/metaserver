@@ -1,3 +1,4 @@
+# Generated automatically from Makefile.in by configure.
 # Makefile.in generated automatically by automake 1.4 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
@@ -11,45 +12,44 @@
 # PARTICULAR PURPOSE.
 
 
-SHELL = @SHELL@
+SHELL = /bin/sh
 
-srcdir = @srcdir@
-top_srcdir = @top_srcdir@
-VPATH = @srcdir@
-prefix = @prefix@
-exec_prefix = @exec_prefix@
+srcdir = .
+top_srcdir = ..
+prefix = /opt/test
+exec_prefix = ${prefix}
 
-bindir = @bindir@
-sbindir = @sbindir@
-libexecdir = @libexecdir@
-datadir = @datadir@
-sysconfdir = @sysconfdir@
-sharedstatedir = @sharedstatedir@
-localstatedir = @localstatedir@
-libdir = @libdir@
-infodir = @infodir@
-mandir = @mandir@
-includedir = @includedir@
+bindir = ${exec_prefix}/bin
+sbindir = ${exec_prefix}/sbin
+libexecdir = ${exec_prefix}/libexec
+datadir = ${prefix}/share
+sysconfdir = ${prefix}/etc
+sharedstatedir = ${prefix}/com
+localstatedir = ${prefix}/var
+libdir = ${exec_prefix}/lib
+infodir = ${prefix}/info
+mandir = ${prefix}/man
+includedir = ${prefix}/include
 oldincludedir = /usr/include
 
 DESTDIR =
 
-pkgdatadir = $(datadir)/@PACKAGE@
-pkglibdir = $(libdir)/@PACKAGE@
-pkgincludedir = $(includedir)/@PACKAGE@
+pkgdatadir = $(datadir)/metaserver
+pkglibdir = $(libdir)/metaserver
+pkgincludedir = $(includedir)/metaserver
 
 top_builddir = ..
 
-ACLOCAL = @ACLOCAL@
-AUTOCONF = @AUTOCONF@
-AUTOMAKE = @AUTOMAKE@
-AUTOHEADER = @AUTOHEADER@
+ACLOCAL = aclocal
+AUTOCONF = autoconf
+AUTOMAKE = automake
+AUTOHEADER = autoheader
 
-INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
-INSTALL_DATA = @INSTALL_DATA@
-INSTALL_SCRIPT = @INSTALL_SCRIPT@
-transform = @program_transform_name@
+INSTALL = /usr/bin/install -c
+INSTALL_PROGRAM = ${INSTALL} $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_DATA = ${INSTALL} -m 644
+INSTALL_SCRIPT = ${INSTALL_PROGRAM}
+transform = s,x,x,
 
 NORMAL_INSTALL = :
 PRE_INSTALL = :
@@ -57,22 +57,21 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-CC = @CC@
-CXX = @CXX@
-MAKEINFO = @MAKEINFO@
-PACKAGE = @PACKAGE@
-VERSION = @VERSION@
+CC = gcc
+CXX = c++
+MAKEINFO = /home/stuff/metaserver/missing makeinfo
+PACKAGE = metaserver
+VERSION = 1.9
 
-CFLAGS = -Wall -I/usr/local/include -I../src -g -DDEBUG
-CXXFLAGS = -Wall -I/usr/local/include -I../src
-#LIBS = -L/usr/local/lib -lgnugetopt
+CFLAGS = -Wall -I/usr/local/include
+CXXFLAGS = -Wall -I/usr/local/include -g -DDEBUG
 
-bin_PROGRAMS = testclient #testclient.debug
+bin_PROGRAMS = metaserver #metaserver.debug
 
-noinst_HEADERS =   wrap.h dgclibig.h
+noinst_HEADERS =   mainloop.hh protocol_instructions.h netmsg.hh wrapunix.hh
 
 
-testclient_SOURCES =   testclient.c wrap.c sock_ntop.c dgclibig.c
+metaserver_SOURCES =   clientshakemsg.cpp handshakemsg.cpp listrequestmsg.cpp listresponsemsg.cpp  metaserver.cpp metaserver_main.cpp netmsg.cpp serverkeepalivemsg.cpp  servershakemsg.cpp sigalrmhandler.cpp siginthandler.cpp signalmanager.cpp  terminatemsg.cpp wrapunix.cpp
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
@@ -80,17 +79,20 @@ CONFIG_CLEAN_FILES =
 PROGRAMS =  $(bin_PROGRAMS)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I..
-CPPFLAGS = @CPPFLAGS@
-LDFLAGS = @LDFLAGS@
-LIBS = @LIBS@
-testclient_OBJECTS =  testclient.o wrap.o sock_ntop.o dgclibig.o
-testclient_LDADD = $(LDADD)
-testclient_DEPENDENCIES = 
-testclient_LDFLAGS = 
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I..
+CPPFLAGS = 
+LDFLAGS = 
+LIBS = -lresolv -lnsl 
+metaserver_OBJECTS =  clientshakemsg.o handshakemsg.o listrequestmsg.o \
+listresponsemsg.o metaserver.o metaserver_main.o netmsg.o \
+serverkeepalivemsg.o servershakemsg.o sigalrmhandler.o siginthandler.o \
+signalmanager.o terminatemsg.o wrapunix.o
+metaserver_LDADD = $(LDADD)
+metaserver_DEPENDENCIES = 
+metaserver_LDFLAGS = 
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXLD = $(CXX)
+CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
 HEADERS =  $(noinst_HEADERS)
 
 DIST_COMMON =  Makefile.am Makefile.in
@@ -100,16 +102,19 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DEP_FILES =  .deps/dgclibig.P .deps/sock_ntop.P .deps/testclient.P \
-.deps/wrap.P
-SOURCES = $(testclient_SOURCES)
-OBJECTS = $(testclient_OBJECTS)
+DEP_FILES =  .deps/clientshakemsg.P .deps/handshakemsg.P \
+.deps/listrequestmsg.P .deps/listresponsemsg.P .deps/metaserver.P \
+.deps/metaserver_main.P .deps/netmsg.P .deps/serverkeepalivemsg.P \
+.deps/servershakemsg.P .deps/sigalrmhandler.P .deps/siginthandler.P \
+.deps/signalmanager.P .deps/terminatemsg.P .deps/wrapunix.P
+SOURCES = $(metaserver_SOURCES)
+OBJECTS = $(metaserver_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .cpp .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu TestClient/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
@@ -157,9 +162,11 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-testclient: $(testclient_OBJECTS) $(testclient_DEPENDENCIES)
-	@rm -f testclient
-	$(LINK) $(testclient_LDFLAGS) $(testclient_OBJECTS) $(testclient_LDADD) $(LIBS)
+metaserver: $(metaserver_OBJECTS) $(metaserver_DEPENDENCIES)
+	@rm -f metaserver
+	$(CXXLINK) $(metaserver_LDFLAGS) $(metaserver_OBJECTS) $(metaserver_LDADD) $(LIBS)
+.cpp.o:
+	$(CXXCOMPILE) -c $<
 
 tags: TAGS
 
@@ -192,14 +199,14 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = TestClient
+subdir = src
 
 distdir: $(DISTFILES)
 	here=`cd $(top_builddir) && pwd`; \
 	top_distdir=`cd $(top_distdir) && pwd`; \
 	distdir=`cd $(distdir) && pwd`; \
 	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu TestClient/Makefile
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -236,6 +243,25 @@ maintainer-clean-depend:
 %.lo: %.c
 	@echo '$(LTCOMPILE) -c $<'; \
 	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
+	  < .deps/$(*F).pp > .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm -f .deps/$(*F).pp
+
+%.o: %.cpp
+	@echo '$(CXXCOMPILE) -c $<'; \
+	$(CXXCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
+%.lo: %.cpp
+	@echo '$(LTCXXCOMPILE) -c $<'; \
+	$(LTCXXCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
 	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
 	  < .deps/$(*F).pp > .deps/$(*F).P; \
 	tr ' ' '\012' < .deps/$(*F).pp \

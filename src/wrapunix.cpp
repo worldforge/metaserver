@@ -329,7 +329,7 @@ char *WrapUnix::sock_ntop(const struct sockaddr *sa, socklen_t salen)
   return (NULL);
 }
 
-//=============================================================================
+//============================================================================
 int WrapUnix::socket(int family, int type, int protocol)
 {
   int n;
