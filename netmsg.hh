@@ -28,6 +28,9 @@
 
 #include "protocol_instructions.h"
 
+// Subclasses use memcpy, so we include <string> here
+#include <string>
+
 class NetMsg
 {
 public:

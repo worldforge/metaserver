@@ -22,14 +22,17 @@
     The author can be reached via e-mail to dragonm@leech.org
 */
 #include "clientshakemsg.hh"
+#include <string.h>   // provides memcpy
 
 //=============================================================================
 ClientShakeMsg::ClientShakeMsg(const unsigned char *message,
 			       const unsigned int messageLength)
 {
-  if(messageLength < MAX_MSG_LENGTH)
+  if(messageLength < MAX_MSG_LENGTH) 
+  {
     memcpy(mBuffer, message, messageLength);
-
+  }
+    
   if(!VerifyType(NMT_CLIENTSHAKE))
     return;
 

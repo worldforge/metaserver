@@ -41,7 +41,10 @@ typedef void    Sigfunc(int);   /* for signal handlers */
 
 /* HAVE_FEATURES_H defined / undefined in config.h */
 #ifdef HAVE_FEATURES_H
+#warning "Including features.h"
 #include <features.h>
+#else
+#warning "Not including features.h"
 #endif
 
 #include <netdb.h>

@@ -27,6 +27,7 @@
 #include "netmsg.hh"
 
 #include <list>
+using namespace std;
 
 typedef int           Address;
 typedef list<Address> AddressList;

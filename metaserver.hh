@@ -42,6 +42,7 @@
 
 // Forward declare it later.
 #include <list>
+using namespace std;
 
 #ifndef DEBUG
 #define REAP_INTERVAL 930 /* 15 minutes plus 30 seconds */
