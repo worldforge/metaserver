@@ -87,6 +87,7 @@ Metaserver::Metaserver() : mDaemon(false),
 			   mSigintHandler(0)
 {
   memset(&mBindAddress, 0, sizeof(mBindAddress));
+  mExecute[0] = '\0';
 }
 
 
@@ -495,7 +496,8 @@ void Metaserver::ReapList(ListType which)
       switch(which)
       {
         case SERVER_LIST:
-          system(mExecute);
+          if(mExecute[0] != '\0')
+	    system(mExecute);
           debug_msg("Reaping stale server: %s", str);
           break;
         case CLIENT_LIST:
@@ -599,7 +601,8 @@ void Metaserver::HandleServerShake(SA *pcliaddr, const ServerShakeMsg &msg)
       search_for.SetValues(sa->sin_addr.s_addr, 0, time(NULL));
       mActiveServers.push_back(search_for);
 
-      system(mExecute);
+      if(mExecute[0] != '\0')
+        system(mExecute);
 
       if((active = mActiveServers.size()) > mPeakActiveServers)
 	mPeakActiveServers = active;
@@ -705,7 +708,8 @@ void Metaserver::HandleTerminate(SA *pcliaddr)
 	      PolishedPresentation(presentation));
 #endif
     mActiveServers.erase(i);
-    system(mExecute);
+    if(mExecute[0] != '\0')
+      system(mExecute);
   }
   else
   {

@@ -21,3 +21,5 @@ Generic Game Metaserver ChangeLog
 	or under Bourne as:
 	CPPFLAGS=-DDEBUG ./configure
 	
+	v1.3 January 20, 2004
+	Added ability to execute an arbitrary command on server list or delist.
