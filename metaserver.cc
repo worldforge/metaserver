@@ -35,7 +35,12 @@
     Thanks to Yahn Bernier and Gamasutra.  The article saved having to 
     go back and correct what would have been at least one major blunder.
 */
+#ifdef __FreeBSD__
+#include <db.h>
+#endif
 #include <netinet/in.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <iostream>
 #include <getopt.h>
 #include "wrap.hh"
@@ -44,15 +49,17 @@
 #define DEFAULT_SERV_PORT           8453
 
 
-const char *long_version = "Generic Game Metaserver v1.1";
-const char *short_version = "1.1";
+const char *long_version = "Generic Game Metaserver v" VERSION;
+const char *short_version = VERSION;
 const char *copyright_license_no_warranty =
 "Copyright (C) 2000 Dragon Master\n"
 "This software is licensed under the GNU GPL and comes with ABSOLUTELY NO\n"
 "WARRANTY.  See the accompanying License file for details.";
 
+extern int daemon_proc;
 
-int parse_commandline(int, char **, int *, struct in_addr *);
+int parse_commandline(int, char **, int *, struct in_addr *, bool *);
+void daemonize(const char *, int);
 void version_and_license();
 void help();
 
@@ -62,11 +69,15 @@ int main(int argc, char **argv)
   struct sockaddr_in servaddr, cliaddr;
   int listen_port = DEFAULT_SERV_PORT;
   struct in_addr addr;
+  bool daemon = false;
 
   memset(&addr, 0, sizeof(addr));
 
-  if(!parse_commandline(argc, argv, &listen_port, &addr))
+  if(!parse_commandline(argc, argv, &listen_port, &addr, &daemon))
     return 1;
+
+  if(daemon)
+    daemonize(argv[0], LOG_DAEMON);
 
   sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
 
@@ -82,7 +93,8 @@ int main(int argc, char **argv)
   return 0;
 }
 
-int parse_commandline(int argc, char * argv[], int *port, struct in_addr *addr)
+int parse_commandline(int argc, char * argv[], int *port, 
+                      struct in_addr *addr, bool *daemon)
 {
   int c;
   bool quiet = false;
@@ -100,10 +112,11 @@ int parse_commandline(int argc, char * argv[], int *port, struct in_addr *addr)
       {"quiet", 0, 0, 'q'},
       {"server-ip", 1, 0, 's'},
       {"version", 0, 0, 'v'},
+      {"daemon", 0, 0, 'd'},
       {0, 0, 0, 0}
     };
 
-    c = getopt_long (argc, argv, "hp:qs:v", long_options, &option_index);
+    c = getopt_long (argc, argv, "hp:qs:vd", long_options, &option_index);
     if (c == -1)
       break;
 
@@ -129,12 +142,19 @@ int parse_commandline(int argc, char * argv[], int *port, struct in_addr *addr)
         break;
       case 's':
         strncpy(server_ip, optarg, 128);
-        Inet_aton(optarg, addr);
+        if(LookupHost(optarg, addr))
+        {
+          cout << "No such host. (" << optarg << ")" << endl;
+          exit(1);
+        }
         server_ip_specified = true;
         break;
       case 'v':
         version_and_license();
         exit(0);
+        break;
+      case 'd':
+        *daemon = true;
         break;
       case '?':
         break;
@@ -180,5 +200,39 @@ void help()
   cout << "-v   --version    Version" << endl
        << "-h   --help       Help" << endl
        << "-s   --server-ip  Server IP" << endl
-       << "-p   --port       Server Listen Port" << endl;
+       << "-p   --port       Server Listen Port" << endl
+       << "-d   --daemon     Move Into Background" << endl;
+}
+
+void daemonize(const char *pname, int facility)
+{
+  int   i;
+  int   tablesize=0;
+  pid_t pid;
+
+  if((pid = Fork()) != 0)
+    exit(0);         /* parent terminates */
+
+  /* 1st child continues */
+  setsid();          /* become session leader */
+
+  Signal(SIGHUP, SIG_IGN);
+  if((pid = Fork()) != 0)
+    exit(0);         /* 1st child terminates */
+
+  /* 2nd child continues */
+  daemon_proc = 1;   /* for our err_XXX() functions */
+
+  chdir("/");        /* change working directory */
+
+  umask(0);          /* clear our file mode creation mask */
+
+  tablesize = getdtablesize();
+  if(tablesize == -1)
+    tablesize = 256; /* Default OPEN_MAX for Linux */
+
+  for(i = 0; i < tablesize; i++)
+    close(i);
+
+  openlog(pname, LOG_PID, facility);
 }

@@ -27,7 +27,7 @@
 */
 #include "wrap.hh"
 
-int daemon_proc;   /* set nonzero by daemon_init() */
+int daemon_proc;   /* set nonzero by daemonize() */
 
 /* Print a message and return to caller.
  * Caller specifies "errnoflag" and "level". */
@@ -43,7 +43,7 @@ void err_doit(int errnoflag, int level, const char *fmt, va_list ap)
 #ifdef	HAVE_VSNPRINTF
   vsnprintf(buf, sizeof(buf), fmt, ap);	/* this is safe */
 #else
-  vsprintf(buf, fmt, ap);		     /* this is not safe */
+  vsprintf(buf, fmt, ap);               /* this is not safe */
 #endif
   n = strlen(buf);
   if(errnoflag)
@@ -51,12 +51,10 @@ void err_doit(int errnoflag, int level, const char *fmt, va_list ap)
   strcat(buf, "\n");
 
   if(daemon_proc)
-  {
     syslog(level, buf);
-  }
   else
   {
-    fflush(stdout);	        /* in case stdout and stderr are the same */
+    fflush(stdout);             /* in case stdout and stderr are the same */
     fputs(buf, stderr);
     fflush(stderr);
   }
@@ -89,6 +87,39 @@ void err_quit(const char *fmt, ...)
   exit(1);
 }
 
+/* Debug message.  Print a message. */
+
+void debug_msg(const char *fmt, ...)
+{
+  va_list ap;
+
+  va_start(ap, fmt);
+  err_doit(0, LOG_DEBUG, fmt, ap);
+  va_end(ap);
+}
+
+/* Notice message. Print a message. */
+
+void notice_msg(const char *fmt, ...)
+{
+  va_list ap;
+
+  va_start(ap, fmt);
+  err_doit(0, LOG_NOTICE, fmt, ap);
+  va_end(ap);
+}
+
+/* Warning message. Print a warning. */
+
+void warning_msg(const char *fmt, ...)
+{
+  va_list ap;
+
+  va_start(ap, fmt);
+  err_doit(0, LOG_WARNING, fmt, ap);
+  va_end(ap);
+}
+
 void Bind(int fd, const struct sockaddr *sa, socklen_t salen)
 {
   if(bind(fd, sa, salen) < 0)
@@ -105,10 +136,30 @@ char *Fgets(char *ptr, int n, FILE *stream)
   return (rptr);
 }
 
+pid_t Fork(void)
+{
+  pid_t	pid;
+
+  if((pid = fork()) == -1)
+    err_sys("fork error");
+  return(pid);
+}
+
 void Fputs(const char *ptr, FILE *stream)
 {
   if(fputs(ptr, stream) == EOF)
     err_sys("fputs error");
+}
+
+int LookupHost(const char *hostname, struct in_addr *inp)
+{
+  struct hostent *hoste;
+  if ((hoste = gethostbyname(hostname)) != NULL)
+  {
+    inp = (struct in_addr *) *hoste->h_addr_list;
+    return 0;
+  }
+  return 1;
 }
 
 void Inet_aton(const char *cp, struct in_addr *inp)

@@ -123,9 +123,8 @@ void main_loop(int sockfd, SA *pcliaddr, socklen_t clilen)
         Sendto(sockfd, mesg, packet_size, 0, pcliaddr, len);
 #ifdef DEBUG
         presentation = Sock_ntop(pcliaddr, sizeof(SA));
-        cout << "Received server keepalive from " 
-             << polished_presentation(presentation) 
-             << endl;
+        debug_msg("Received server keepalive from %s", 
+                  polished_presentation(presentation));
 #endif
         break;
       case CKEEP_ALIVE:
@@ -143,9 +142,8 @@ void main_loop(int sockfd, SA *pcliaddr, socklen_t clilen)
         Sendto(sockfd, mesg, packet_size, 0, pcliaddr, len);
 #ifdef DEBUG
         presentation = Sock_ntop(pcliaddr, sizeof(SA));
-        cout << "Received client keepalive from "
-             << polished_presentation(presentation)
-             << endl;
+        debug_msg("Received client keepalive from %s",
+                  polished_presentation(presentation));
 #endif
         break;
       case SERVERSHAKE:
@@ -157,9 +155,8 @@ void main_loop(int sockfd, SA *pcliaddr, socklen_t clilen)
         {
 #ifdef DEBUG
           presentation = Sock_ntop(pcliaddr, sizeof(SA));
-          cout << "Received valid server handshake from " 
-               << polished_presentation(presentation) 
-               << endl;
+          debug_msg("Received valid server handshake from %s", 
+                    polished_presentation(presentation));
 #endif
           server_handshakes.erase(i);
           i = find_by_addr(active_servers.begin(), active_servers.end(), 
@@ -173,9 +170,8 @@ void main_loop(int sockfd, SA *pcliaddr, socklen_t clilen)
               peak_active_servers = active;
 #ifdef DEBUG
             presentation = Sock_ntop(pcliaddr, sizeof(SA));
-            cout << "Added new active server at "
-                 << polished_presentation(presentation) 
-                 << endl;
+            debug_msg("Added new active server at %s",
+                      polished_presentation(presentation));
 #endif
           }
           else
@@ -183,18 +179,16 @@ void main_loop(int sockfd, SA *pcliaddr, socklen_t clilen)
             (*i).set_timestamp(time(NULL));
 #ifdef DEBUG
             presentation = Sock_ntop(pcliaddr, sizeof(SA));
-            cout << "Updated existing active server at "
-                 << polished_presentation(presentation)
-                 << endl;
+            debug_msg("Updated existing active server at %s",
+                      polished_presentation(presentation));
 #endif
           }
         }
         else
         {
           presentation = Sock_ntop(pcliaddr, sizeof(SA));
-          cerr << "Bogus SERVERSHAKE packet received from: " 
-               << polished_presentation(presentation)
-               << endl;
+          warning_msg("Bogus SERVERSHAKE packet received from: %s", 
+                      polished_presentation(presentation));
         }
         break;
       case CLIENTSHAKE:
@@ -206,9 +200,8 @@ void main_loop(int sockfd, SA *pcliaddr, socklen_t clilen)
         {
 #ifdef DEBUG
           presentation = Sock_ntop(pcliaddr, sizeof(SA));
-          cout << "Received valid handshake from " 
-               << polished_presentation(presentation) 
-               << endl;
+          debug_msg("Received valid handshake from %s", 
+                    polished_presentation(presentation));
 #endif
           client_handshakes.erase(i);
           i = find_by_addr(active_clients.begin(), active_clients.end(), 
@@ -222,9 +215,8 @@ void main_loop(int sockfd, SA *pcliaddr, socklen_t clilen)
               peak_active_clients = active;
 #ifdef DEBUG
             presentation = Sock_ntop(pcliaddr, sizeof(SA));
-            cout << "Added new active client at "
-                 << polished_presentation(presentation)
-                 << endl;
+            debug_msg("Added new active client at %s",
+                      polished_presentation(presentation));
 #endif
           }
           else
@@ -232,18 +224,16 @@ void main_loop(int sockfd, SA *pcliaddr, socklen_t clilen)
             (*i).set_timestamp(time(NULL));
 #ifdef DEBUG
             presentation = Sock_ntop(pcliaddr, sizeof(SA));
-            cout << "Updated existing client at "
-                 << polished_presentation(presentation)
-                 << endl;
+            debug_msg("Updated existing client at %s",
+                      polished_presentation(presentation));
 #endif
           }
         }
         else
         {
           presentation = Sock_ntop(pcliaddr, sizeof(SA));
-          cerr << "Bogus CLIENTSHAKE packet received from: " 
-               << polished_presentation(presentation)
-               << endl;
+          warning_msg("Bogus CLIENTSHAKE packet received from: %s", 
+                      polished_presentation(presentation));
         }
         break;
       case TERMINATE:
@@ -254,18 +244,16 @@ void main_loop(int sockfd, SA *pcliaddr, socklen_t clilen)
         {
 #ifdef DEBUG
           presentation = Sock_ntop(pcliaddr, sizeof(SA));
-          cout << "Received termination from server at "
-               << polished_presentation(presentation) 
-               << endl;
+          debug_msg("Received termination from server at %s",
+                    polished_presentation(presentation));
 #endif
           active_servers.erase(i);
         }
         else
         {
           presentation = Sock_ntop(pcliaddr, sizeof(SA));
-          cerr << "Received TERMINATION packet for unlisted server from: "
-               << polished_presentation(presentation)
-               << endl;
+          warning_msg("Received TERMINATION packet for unlisted server from:"
+                      "%s", polished_presentation(presentation));
         }
         break;
       case LIST_REQ:
@@ -343,21 +331,19 @@ ForwardIterator find_by_addr(ForwardIterator first, ForwardIterator last,
 
 void recvfrom_int(int signo)
 {
-  cout << "Interrupted.  Shutting down." << endl;
-  cout << "Received " << packet_count << " datagrams" << endl;
-  cout << "There were " << active_servers.size() << " active servers." << endl;
-  cout << "There were " << server_handshakes.size() 
-       << " pending server handshakes." << endl;
-  cout << "There were " << client_handshakes.size() 
-       << " pending client handshakes." << endl;
-  cout << "There were " << peak_active_servers << " peak active servers" 
-       << endl;
-  cout << "There were " << peak_active_clients << " peak active clients" 
-       << endl;
-  cout << "There were " << peak_pending_server_handshakes 
-       << " peak pending server handshakes" << endl;
-  cout << "There were " << peak_pending_client_handshakes 
-       << " peak pending client handshakes" << endl;
+  notice_msg("Interrupted.  Shutting down.");
+  notice_msg("Received %d datagrams", packet_count);
+  notice_msg("There were %d active servers.", active_servers.size());
+  notice_msg("There were %d pending server handshakes.", 
+             server_handshakes.size());
+  notice_msg("There were %d pending client handshakes.",
+             client_handshakes.size());
+  notice_msg("There were %d peak active servers", peak_active_servers);
+  notice_msg("There were %d peak active clients", peak_active_clients);
+  notice_msg("There were %d peak pending server handshakes", 
+             peak_pending_server_handshakes);
+  notice_msg("There were %d peak pending client handshakes", 
+             peak_pending_client_handshakes);
   exit(0);
 }
 
@@ -412,16 +398,16 @@ void reap_list(list_type which)
       switch(which)
       {
         case SERVER_LIST:
-          cout << "Reaping stale server: " << str << endl;
+          debug_msg("Reaping stale server: %s", str);
           break;
         case CLIENT_LIST:
-          cout << "Reaping stale client: " << str << endl;
+          debug_msg("Reaping stale client: %s", str);
           break;
         case SERVER_HANDSHAKE_LIST:
-          cout << "Reaping stale server handshake: " << str << endl;
+          debug_msg("Reaping stale server handshake: %s", str);
           break;
         case CLIENT_HANDSHAKE_LIST:
-          cout << "Reaping stale client handshake: " << str << endl;
+          debug_msg("Reaping stale client handshake: %s", str);
           break;
       }
 #endif

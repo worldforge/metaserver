@@ -10,3 +10,14 @@ Generic Game Metaserver ChangeLog
 	in test client and server to allow the user to specify port.
 	Metaserver can now return version and help information, and bind to a
 	specified port and/or specified IP address.
+
+	v1.2 November 16, 2000
+	Merged autoconf/automake, BSD port, and hostname lookups by Demitar.
+	Added ability to self-daemonize and behave politely as a daemon.
+	Configure your syslog to show you daemon notices to see its production
+	messages, and add daemon debug to see debug messages.
+	To activate debug code in the daemon, run configure under (t)csh as:
+	env CPPFLAGS=-DDEBUG ./configure
+	or under Bourne as:
+	CPPFLAGS=-DDEBUG ./configure
+	

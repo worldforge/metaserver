@@ -21,6 +21,9 @@
 
     The author can be reached via e-mail to dragonm@leech.org
 */
+#ifdef __FreeBSD__
+#include <db.h>
+#endif
 #include <sys/un.h>
 #include "wrap.h"
 

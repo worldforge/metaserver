@@ -12,14 +12,19 @@ else.  Further enhancements will be:
 - Create metaserver link module to enable a network of metaservers
 - Extend server information gathered to include server type, server version, 
   number of players connected, and server uptime
-- Support GNU autoconf and automake
 - Port to other UN*Xs besides Linux
-- Add ability to self-daemonize
 
 These items won't necessarily be completed in the order listed.  In fact, it's 
 unlikely.  They'll be completed as time allows and demand requires.
 
 DM
 
-Completed 09/30/00
+Completed 09/30/00 by DM
 - Add commandline options, including help and version
+Completed 001108 by Demitar
+- Port to FreeBSD
+- Support GNU autoconf and automake
+- Lookup hostnames
+Completed 11/16/00 by DM
+- Add ability to self-daemonize
+

@@ -34,7 +34,9 @@ typedef void    Sigfunc(int);   /* for signal handlers */
 
 #define _USE_POSIX
 #define _USE_GNU
+#ifndef __FreeBSD__
 #include <features.h>
+#endif
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,6 +45,7 @@ typedef void    Sigfunc(int);   /* for signal handlers */
 #include <errno.h>
 #include <syslog.h>             /* for syslog() */
 #include <signal.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -50,7 +53,9 @@ typedef void    Sigfunc(int);   /* for signal handlers */
 
 void Bind(int, const struct sockaddr *, socklen_t);
 char *Fgets(char *, int, FILE *);
+pid_t Fork(void);
 void Fputs(const char *, FILE *);
+int LookupHost(const char *, struct in_addr *);
 void Inet_aton(const char *, struct in_addr *);
 int Inet_pton(int, const char *, void *);
 void *Malloc(size_t);
@@ -63,5 +68,8 @@ int Socket(int, int, int);
 Sigfunc *Signal(int, Sigfunc *);
 void err_quit(const char *, ...);
 void err_sys(const char *, ...);
+void debug_msg(const char *, ...);
+void notice_msg(const char *, ...);
+void warning_msg(const char *, ...);
 
 #endif
