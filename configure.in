@@ -10,7 +10,6 @@ AC_PROG_CC
 AC_PROG_CXX
 
 dnl Checks for libraries.
-dnl Replace `main' with a function in -lgnugetopt:
 AC_CHECK_HEADERS(getopt.h)
 AC_CHECK_LIB(gnugetopt, getopt_long)
 
@@ -30,5 +29,19 @@ AC_CHECK_FUNCS(socket strerror inet_ntop inet_aton)
 AC_CHECK_LIB(socket, socket)
 AC_CHECK_LIB(nsl, inet_ntop)
 AC_CHECK_LIB(resolv, inet_aton)
+
+AC_ARG_ENABLE(debug,[  --enable-debug          creates debugging code [default=no]],
+[
+  if test x$enableval = xno; then
+    ac_use_debug_code="no"
+  else
+    ac_use_debug_code="yes"
+  fi
+], [ac_user_debug_code="no"])
+if test "$ac_use_debug_code" = "yes"; then
+  CPPFLAGS="$CPPFLAGS -g -DDEBUG"
+else
+  CPPFLAGS="$CPPFLAGS -DNDEBUG"
+fi
 
 AC_OUTPUT(Makefile src/Makefile TestServer/Makefile TestClient/Makefile )
