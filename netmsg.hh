@@ -34,54 +34,55 @@
 class NetMsg
 {
 public:
-  NetMsg();
-  NetMsg(const unsigned char *message, const unsigned int messageLength);
-  virtual ~NetMsg();
+                         NetMsg();
+                         NetMsg(const unsigned char *message, 
+				const unsigned int messageLength);
+  virtual               ~NetMsg();
 
-  NetMsgType GetType() const;
+          NetMsgType     GetType() const;
 
-  virtual bool Good();
+  virtual bool           Good();
 
-  const char *GetPackedBuffer();
-  unsigned int GetPackedBufferLength();
-
-protected:
-  void PackType();
-  void PackChar(char);
-  void PackUChar(unsigned char);
-  void PackInt(int);
-  void PackUInt(unsigned int);
-  void PackString(char *, unsigned int);
-  void PackShort(short);
-  void PackUShort(unsigned short);
-  void PackFloat(float);
-  void PackDouble(double);
-  void PackLongLong(long long);
-
-  NetMsgType UnpackType();
-  char UnpackChar();
-  unsigned char UnpackUChar();
-  int UnpackInt();
-  unsigned int UnpackUInt();
-  unsigned int UnpackString(char *);
-  short UnpackShort();
-  unsigned short UnpackUShort();
-  float UnpackFloat();
-  double UnpackDouble();
-  long long UnpackLongLong();
+    const char          *GetPackedBuffer();
+          unsigned int   GetPackedBufferLength();
 
 protected:
-  virtual void Pack();
-  virtual void Unpack();
-  virtual bool VerifyType(NetMsgType type);
+          void           PackType();
+          void           PackChar(char);
+          void           PackUChar(unsigned char);
+          void           PackInt(int);
+          void           PackUInt(unsigned int);
+          void           PackString(char *, unsigned int);
+          void           PackShort(short);
+          void           PackUShort(unsigned short);
+          void           PackFloat(float);
+          void           PackDouble(double);
+          void           PackLongLong(long long);
 
-  char         mBuffer[MAX_MSG_LENGTH];
-  bool         mGood;
-  bool         mPacked;
-  NetMsgType   mType;
+          NetMsgType     UnpackType();
+          char           UnpackChar();
+          unsigned char  UnpackUChar();
+          int            UnpackInt();
+          unsigned int   UnpackUInt();
+          unsigned int   UnpackString(char *);
+          short          UnpackShort();
+          unsigned short UnpackUShort();
+          float          UnpackFloat();
+          double         UnpackDouble();
+          long long      UnpackLongLong();
+
+protected:
+  virtual void           Pack();
+  virtual void           Unpack();
+  virtual bool           VerifyType(NetMsgType type);
+
+          char           mBuffer[MAX_MSG_LENGTH];
+          bool           mGood;
+          bool           mPacked;
+          NetMsgType     mType;
 private:
-  unsigned int mLength;
-  unsigned int mPlace;
+          unsigned int   mLength;
+          unsigned int   mPlace;
 };
 
 #endif
