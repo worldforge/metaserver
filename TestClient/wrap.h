@@ -31,7 +31,12 @@ typedef void    Sigfunc(int);   /* for signal handlers */
 
 #define _USE_POSIX
 #define _USE_GNU
-#ifndef __FreeBSD__
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#ifdef HAVE_FEATURES_H
 #include <features.h>
 #endif
 #include <netdb.h>

@@ -4,5 +4,8 @@ All v1.0 - v1.1 Code and Documentation
 BSD Port, autoconf support, hostname lookups
         Demitar
 
+Solaris/x86 Port [quick-o-hack special]
+	Malcolm <malcolm@escapesystems.com>
+
 Bug Fixes
         Anubis <anubis@worldforge.org>

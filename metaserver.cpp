@@ -35,6 +35,10 @@
     Thanks to Yahn Bernier and Gamasutra.  The article saved having to 
     go back and correct what would have been at least one major blunder.
 */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "clientshakemsg.hh"
 #include "handshake.hh"
 #include "handshakemsg.hh"
@@ -51,7 +55,11 @@
 #include "terminatemsg.hh"
 
 #include <arpa/inet.h>        // for inet_pton()
+#ifdef HAVE_GETOPT_H
 #include <getopt.h>
+#else
+#include <stdlib.h>     // Solaris only?
+#endif
 #include <iostream>
 #include <list>
 #include <netdb.h>            // for gethostbyname(), hostent
@@ -128,6 +136,7 @@ int Metaserver::ParseCommandline(int argc, char * argv[])
   while (1)
   {
     int option_index = 0;
+#ifndef sun      /* TODO: replace with config.h check */
     static struct option long_options[] =
     {
       // name, has_arg, return 0?, val
@@ -141,13 +150,20 @@ int Metaserver::ParseCommandline(int argc, char * argv[])
     };
 
     c = getopt_long (argc, argv, "hp:qs:vd", long_options, &option_index);
+#else
+    c = getopt (argc, argv, "hp:qs:vd");
+#endif
     if (c == -1)
       break;
 
     switch (c)
     {
       case 0:
+#ifdef sun
+        cout << "Unsupported option due to Solaris stupidity...\n";
+#else
         cout << "Unsupported long option " << long_options[option_index].name;
+#endif
         if (optarg)
           cout << " with arg " << optarg;
         cout << endl;
