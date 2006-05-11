@@ -1,4 +1,9 @@
-2006-05-10  Al Riddoch  <alriddoch@zepler.org>
+2006-05-11  Al Riddoch  <alriddoch@zepler.org>
+
+	* TestServer/dgclibig.c: Correctly initialise the fromlen variable
+	  to the size of the address buffer when calling recvfrom.
+
+2006-05-11  Al Riddoch  <alriddoch@zepler.org>
 
 	* TestClient/dgclibig.c: Correctly initialise the fromlen variable
 	  to the size of the address buffer when calling recvfrom.

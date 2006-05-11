@@ -65,6 +65,7 @@ void metaserver_keepalive(int sockfd, const SA *servaddr, socklen_t servlen)
   mesg_ptr = pack_uint32(SKEEP_ALIVE, mesg, &packet_size);
   Sendto(sockfd, mesg, packet_size, 0, servaddr, servlen);
 
+  addrlen = sizeof(addr);
   Recvfrom(sockfd, mesg, MAXLINE, 0, &addr, &addrlen);
   mesg_ptr = unpack_uint32(&command, mesg);
 
