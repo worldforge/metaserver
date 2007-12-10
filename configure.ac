@@ -10,12 +10,12 @@ AC_PROG_CC
 AC_PROG_CXX
 
 dnl Checks for libraries.
-AC_CHECK_HEADERS(getopt.h)
+AC_CHECK_HEADERS([getopt.h])
 AC_CHECK_LIB(gnugetopt, getopt_long)
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(syslog.h unistd.h features.h)
+AC_CHECK_HEADERS([syslog.h unistd.h features.h])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -25,7 +25,7 @@ AC_TYPE_SIZE_T
 dnl Checks for library functions.
 AC_TYPE_SIGNAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(socket strerror inet_ntop inet_aton)
+AC_CHECK_FUNCS([socket strerror inet_ntop inet_aton])
 AC_CHECK_LIB(socket, socket)
 AC_CHECK_LIB(nsl, inet_ntop)
 AC_CHECK_LIB(resolv, inet_aton)
@@ -44,4 +44,10 @@ else
   CPPFLAGS="$CPPFLAGS -DNDEBUG"
 fi
 
-AC_OUTPUT(Makefile src/Makefile TestServer/Makefile TestClient/Makefile )
+AC_CONFIG_FILES([
+    Makefile
+    src/Makefile
+    TestServer/Makefile
+    TestClient/Makefile
+])
+AC_OUTPUT
