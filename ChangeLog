@@ -1,3 +1,10 @@
+2007-12-10  Al Riddoch  <alriddoch@zepler.org>
+
+	* configure.ac: Replace obsolete configure script.
+
+	* TestClient/Makefile.am, TestServer/Makefile.am, src/Makefile.am:
+	  Clean up the way includes are handled.
+
 2006-05-11  Al Riddoch  <alriddoch@zepler.org>
 
 	* TestServer/dgclibig.c: Correctly initialise the fromlen variable

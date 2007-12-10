@@ -9,9 +9,11 @@ config.log
 config.status
 config.sub
 configure
+depcomp
 install-sh
 ltmain.sh
 missing
 mkinstalldirs
 stamp-h
 stamp-h.in
+stamp-h1

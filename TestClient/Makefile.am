@@ -1,3 +1,4 @@
+INCLUDES = -I$(top_builddir) -I$(top_srcdir)/src
 
 bin_PROGRAMS = testclient
 

@@ -1,9 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(src/metaserver_main.cpp)
-AM_INIT_AUTOMAKE(metaserver, 1.9)
+AC_INIT([metaserver], [1.9])
+AC_CONFIG_SRCDIR([src/metaserver_main.cpp])
+AC_CONFIG_HEADERS([config.h])
 
-dnl create a config.h
-AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE([nostdinc dist-bzip2])
 
 dnl Checks for programs.
 AC_PROG_CC
