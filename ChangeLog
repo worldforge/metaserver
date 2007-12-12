@@ -1,5 +1,10 @@
 2007-12-12  Al Riddoch  <alriddoch@zepler.org>
 
+	* listresponsemsg.cpp, sock_ntop.cc: Remove obsolete non-distributed
+	  files.
+
+2007-12-12  Al Riddoch  <alriddoch@zepler.org>
+
 	* listresponsemsg.hh, mainloop.cc, mainloop.hh, metaserver_version.h,
 	  protocol_instructions.h, src/mainloop.hh: Remove obsolete
 	  non-distributed files.
