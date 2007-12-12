@@ -1,5 +1,10 @@
 2007-12-12  Al Riddoch  <alriddoch@zepler.org>
 
+	* src/sigalrmhandler.cpp, src/signalhandler.hh: Add a virtual
+	  destructor for SignalHandler, so the warnings go away.
+
+2007-12-12  Al Riddoch  <alriddoch@zepler.org>
+
 	* listresponsemsg.cpp, sock_ntop.cc: Remove obsolete non-distributed
 	  files.
 

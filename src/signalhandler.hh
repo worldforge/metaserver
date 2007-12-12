@@ -48,6 +48,8 @@
 class SignalHandler
 {
 public:
+  virtual ~SignalHandler();
+
   virtual int HandleSignal(int signum) = 0;
 };
 
