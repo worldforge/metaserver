@@ -23,6 +23,7 @@
 */
 #include "servershakemsg.hh"
 
+#include <cstring>
 
 //=============================================================================
 ServerShakeMsg::ServerShakeMsg(const unsigned char *message,

@@ -23,6 +23,7 @@
 */
 #include "terminatemsg.hh"
 
+#include <cstring>
 
 //=============================================================================
 TerminateMsg::TerminateMsg(const unsigned char *message,

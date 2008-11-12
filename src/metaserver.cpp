@@ -68,6 +68,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>           // for setsid()
+#include <cstring>
+#include <cstdlib>
 
 #define DEFAULT_LISTEN_PORT           8453
 

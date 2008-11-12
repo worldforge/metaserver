@@ -23,6 +23,7 @@
 */
 #include "listresponsemsg.hh"
 
+#include <cstring>
 
 //=============================================================================
 ListResponseMsg::ListResponseMsg(const unsigned char *message,

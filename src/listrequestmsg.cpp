@@ -23,6 +23,7 @@
 */
 #include "listrequestmsg.hh"
 
+#include <cstring>
 
 //=============================================================================
 ListRequestMsg::ListRequestMsg(const unsigned char *message,

@@ -23,6 +23,7 @@
 */
 #include "serverkeepalivemsg.hh"
 
+#include <cstring>
 
 //=============================================================================
 ServerKeepaliveMsg::ServerKeepaliveMsg(const unsigned char *message,

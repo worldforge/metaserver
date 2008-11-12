@@ -23,6 +23,8 @@
 */
 #include "handshakemsg.hh"
 
+#include <cstring>
+
 //=============================================================================
 HandshakeMsg::HandshakeMsg(const unsigned char *message, 
 			   const unsigned int messageLength)
