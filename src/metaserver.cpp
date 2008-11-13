@@ -618,6 +618,7 @@ void Metaserver::HandleServerShake(SA *pcliaddr, const ServerShakeMsg &msg)
       if(mExecute[0] != '\0') {
         int res = system(mExecute);
         if (res == -1) {
+          err_sys("fork");
         } else {
           int status = WEXITSTATUS(res);
           if (status != 0) {
@@ -730,8 +731,17 @@ void Metaserver::HandleTerminate(SA *pcliaddr)
 	      PolishedPresentation(presentation));
 #endif
     mActiveServers.erase(i);
-    if(mExecute[0] != '\0')
-      system(mExecute);
+    if(mExecute[0] != '\0') {
+      int res = system(mExecute);
+      if (res == -1) {
+        err_sys("fork");
+      } else {
+        int status = WEXITSTATUS(res);
+        if (status != 0) {
+          warning_msg("error running %s: %d", mExecute, status);
+        }
+      }
+    }
   }
   else
   {
