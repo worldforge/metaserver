@@ -1,5 +1,10 @@
 2008-11-13  Al Riddoch  <alriddoch@zepler.org>
 
+	* src/wrapunix.cpp: Fix misuse of syslog, giving a format string
+	  as required.
+
+2008-11-13  Al Riddoch  <alriddoch@zepler.org>
+
 	* src/metaserver.cpp: Clean up running a program when a server
 	  de-registers and report failures more clearly.
 
