@@ -1,5 +1,10 @@
 2008-11-13  Al Riddoch  <alriddoch@zepler.org>
 
+	* TestClient/dgclibig.c: Use fputs() rather than fwrite() to
+	  output a normal character string.
+
+2008-11-13  Al Riddoch  <alriddoch@zepler.org>
+
 	* TestClient/wrap.c, TestServer/wrap.c: Remove the messy daemon
 	  oriented functionality. Neither test program can be a daemon.
 

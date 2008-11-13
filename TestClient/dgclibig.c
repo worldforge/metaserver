@@ -28,7 +28,7 @@
 #include "protocol_instructions.h"
 
 void metaserver_listreq(int, const SA *, socklen_t);
-void writehtml(const char *, const int);
+void writehtml(const char *);
 char *pack_uint32(uint32_t, char *, unsigned int *);
 char *unpack_uint32(uint32_t *, char *);
 
@@ -115,18 +115,18 @@ void metaserver_listreq(int sockfd, const SA *servaddr, socklen_t servlen)
       break;
     }
   }
-  writehtml(html, htmlwhere);
+  writehtml(html);
   free(html);
 }
 
-void writehtml(const char *html, const int len)
+void writehtml(const char *html)
 {
   FILE          *htmlout;
   struct timeb   currenttime;
   char          *timestr;
 
   htmlout = fopen("metaserver.txt", "w");
-  fwrite(html, 1, len, htmlout);
+  fputs(html, htmlout);
 
   tzset();
   ftime(&currenttime);
