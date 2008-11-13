@@ -615,8 +615,16 @@ void Metaserver::HandleServerShake(SA *pcliaddr, const ServerShakeMsg &msg)
       search_for.SetValues(sa->sin_addr.s_addr, 0, time(NULL));
       mActiveServers.push_back(search_for);
 
-      if(mExecute[0] != '\0')
-        system(mExecute);
+      if(mExecute[0] != '\0') {
+        int res = system(mExecute);
+        if (res == -1) {
+        } else {
+          int status = WEXITSTATUS(res);
+          if (status != 0) {
+            warning_msg("error running %s: %d", mExecute, status);
+          }
+        }
+      }
 
       if((active = mActiveServers.size()) > mPeakActiveServers)
 	mPeakActiveServers = active;

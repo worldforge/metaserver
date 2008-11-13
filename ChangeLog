@@ -1,5 +1,10 @@
 2008-11-13  Al Riddoch  <alriddoch@zepler.org>
 
+	* src/metaserver.cpp: Clean up running a program when a server
+	  registers and report failures more clearly.
+
+2008-11-13  Al Riddoch  <alriddoch@zepler.org>
+
 	* src/metaserver.cpp: Report an error if changing cwd to / doesn't
 	  work.
 
