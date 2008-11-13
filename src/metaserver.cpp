@@ -278,12 +278,15 @@ void Metaserver::Daemonize(const char *pname, int facility)
   /* 2nd child continues */
   daemon_proc = 1;   /* for our err_XXX() functions */
 
-  chdir("/");        /* change working directory */
+  if (chdir("/") != 0) { /* change working directory */
+    std::cerr << "Unable to change current working directory to /"
+              << std::endl << std::flush;
+  }
 
   umask(0);          /* clear our file mode creation mask */
 
   tablesize = getdtablesize();
-  if(tablesize == -1)
+  if(tablesize < 0)
     tablesize = 256; /* Default OPEN_MAX for Linux */
 
   for(i = 0; i < tablesize; i++)

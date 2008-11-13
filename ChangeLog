@@ -1,5 +1,10 @@
 2008-11-13  Al Riddoch  <alriddoch@zepler.org>
 
+	* src/metaserver.cpp: Report an error if changing cwd to / doesn't
+	  work.
+
+2008-11-13  Al Riddoch  <alriddoch@zepler.org>
+
 	* TestClient/dgclibig.c: Use fputs() rather than fwrite() to
 	  output a normal character string.
 
