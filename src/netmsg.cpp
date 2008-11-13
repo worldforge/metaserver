@@ -34,7 +34,7 @@ NetMsg::NetMsg(): mGood(true),
 		  mLength(0),
 		  mPlace(0)
 {
-  memset(mBuffer, MAX_MSG_LENGTH, 0);
+  memset(mBuffer, 0, MAX_MSG_LENGTH);
 }
 
 
