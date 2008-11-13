@@ -1,5 +1,5 @@
 /*
-    Generic Game Metaserver Test Server
+    Generic Game Metaserver Test Client
 
     Copyright (C) 2000 Dragon Master
 
@@ -23,8 +23,6 @@
 */
 #include "wrap.h"
 
-int daemon_proc;   /* set nonzero by daemon_init() */
-
 /* Print a message and return to caller.
  * Caller specifies "errnoflag" and "level". */
 
@@ -46,16 +44,10 @@ void err_doit(int errnoflag, int level, const char *fmt, va_list ap)
     snprintf(buf+n, sizeof(buf)-n, ": %s", strerror(errno_save));
   strcat(buf, "\n");
 
-  if(daemon_proc)
-  {
-    syslog(level, buf);
-  }
-  else
-  {
-    fflush(stdout);	        /* in case stdout and stderr are the same */
-    fputs(buf, stderr);
-    fflush(stderr);
-  }
+  fflush(stdout);	        /* in case stdout and stderr are the same */
+  fputs(buf, stderr);
+  fflush(stderr);
+
   return;
 }
 

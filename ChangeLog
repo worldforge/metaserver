@@ -1,3 +1,8 @@
+2008-11-13  Al Riddoch  <alriddoch@zepler.org>
+
+	* TestClient/wrap.c, TestServer/wrap.c: Remove the messy daemon
+	  oriented functionality. Neither test program can be a daemon.
+
 2008-11-12  Al Riddoch  <alriddoch@zepler.org>
 
 	* src/handshakemsg.cpp, src/listrequestmsg.cpp,
